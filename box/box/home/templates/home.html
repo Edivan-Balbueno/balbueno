@@ -1,0 +1,138 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet"/>
+
+    <title>Home</title>
+
+  </head>
+
+  <body>
+  <div class="container">
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+      <a href="{% url 'rich' %}" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+        <span class="fs-4">Django do Zero</span>
+      </a>
+      <ul class="nav nav-pills">
+          {% if user.is_authenticated %}
+          <li class="nav-item" >{{ user.username }} |</li>
+          <li class="nav-item">
+               <a href="url" class="nav-link px-2 link-dark">Sair</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+              <a href="url" class="nav-link px-2 link-dark">Cadastrarr</a>
+          </li>
+          <li class="nav-item">
+             <!-- <a href="{% url 'login' %}" class="nav-link px-2 link-dark">Acessar</a> -->
+          </li>
+          {% endif %}
+          <li class="nav-item">
+              <a href="url" class="nav-link px-2 link-dark">Sobre</a>
+          </li>
+      </ul>
+    </header>
+</div>
+  <br>
+  {% csrf_token %}
+  {% for artigo in artigo %}
+
+    <div class="container">
+      <div class="border border-success">
+        <div class="container">
+          <HR>
+          {{artigo.pub_date|date:"d/m/y" }}
+          <br><HR>
+          <h1>{{artigo.titulo_blog}}</h1>
+          <br>
+          {{artigo.conteudo_artigo|safe}}
+        </div>
+      </div>
+    </div>
+
+    <br>
+  {% endfor %}
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+
+   <!-- Include the Quill library
+
+  <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+
+   Initialize Quill editor
+
+    <script>
+        var toolbarOptions = [
+           ['bold', 'italic', 'underline', 'strike'],
+           ['blockquote', 'code-block'],
+
+           [{ 'header': 1 }, { 'header': 2 }],
+           [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+           [{ 'script': 'sub'}, { 'script': 'super' }],
+           [{ 'direction': 'rtl' }],
+
+           [{ 'size': ['small', false, 'large', 'huge'] }],
+           [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+           [{ 'color': [] }, { 'background': [] }],
+           [{ 'font': [] }],
+           [{ 'align': [] }],
+           ['image'],
+
+           ['clean'],
+        ];
+
+        var quill = new Quill('#editor', {
+          modules: {
+            toolbar: {
+              container: toolbarOptions,
+              //handlers: urlImage
+            }
+          },
+          placeholder: 'Seu texto aqui!!!',
+          theme: 'snow',
+        });
+
+        function urlImage(){
+          let selection = this.quill.getSelection()
+          let prompt = window.prompt('URL da image')
+          if (prompt == null || prompt == ''){return}
+          this.quill.insertEmbed(select.index, 'image', prompt)
+        }
+
+        function return_html(){
+          console.log(quill.root.innerHTML)
+          return quill.root.innerHTML
+        }
+
+        function salvar(){
+          csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value
+          artigo = return_html()
+
+          fetch("/home/salvar/",{
+            method: 'POST',
+            headers: {
+              'X-CSRFToken': csrf_token
+            },
+            body: JSON.stringify({'artigo': artigo})
+
+          }).then(function(result){
+            return result.json()
+
+          }).then(function(data){
+            //console.log(data)
+            location.reload(true)
+          })
+        }
+    </script>
+    -->
+  </body>
+</html>
